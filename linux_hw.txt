@@ -1,5 +1,7 @@
 Comment Feature 1
 
+Comment Feature 2
+
 1)
 vagrant ssh tomcat
 nano grades.txt - вставляємо текст, ctrl+s, ctrl+x
