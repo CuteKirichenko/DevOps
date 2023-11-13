@@ -1,0 +1,52 @@
+1)
+vagrant ssh tomcat
+nano grades.txt - вставляємо текст, ctrl+s, ctrl+x
+nano haproxy.log - вставляємо текст, ctrl+s, ctrl+x
+zip myfilles.zip grades.txt haproxy.log
+sudo find /home/ -name myfilles.zip
+
+2)
+vagrant ssh postgresql
+mkdir -p home/vagrant
+
+vagrant ssh tomcat
+sudo rsync -avz -e "ssh -i /home/vagrant/.ssh/id_rsa" /home/vagrant/myfilles.zip vagrant@192.168.1.102:/home/vagrant/
+
+scp /home/vagrant/myfilles.zip vagrant@192.168.1.102:/home/vagrant/scp_dir
+
+vagrant ssh postgresql
+unzip myfilles.zip -d /home/vagrant/files
+
+3)
+grep "404" /home/vagrant/files/haproxy.log > /home/vagrant/files/result_codes.txt
+grep "500" /home/vagrant/files/haproxy.log >> /home/vagrant/files/result_codes.txt
+
+4)
+awk '{
+  sum += $2;
+  count++;
+}
+END {
+  average = sum / count;
+  print "Average Grade: ", average;
+}' grades.txt
+
+awk '{
+  if ($2 > max_grade) {
+    max_grade = $2;
+    student_info = $0;
+  }
+}
+END {
+  print "Student: ", student_info;
+}' grades.txt
+
+5)
+*/3 * * * * date '+\%Y.\%m.\%d \%H.\%M.\%S Cron task manager' >> /home/crontask.txt
+
+6)
+df -h
+
+df -i
+
+sudo find /var/log -type f | wc -l
